@@ -7,9 +7,9 @@ import java.time.Instant;
  * Writes currently to a txt file: logfile.txt.
  */
 public class Logger {
-    private enum TradeDirection {BUY, SELL};
 
     public Logger() throws IOException { }
+
 
     public static void logPricing(String buyOrSell, Double price, Double quantity) {
         try{
@@ -28,15 +28,12 @@ public class Logger {
         }
     }
 
-    public static void logRFQEvent( String buyOrSell, Double quantity, Double response) {
+    public static void logRFQEvent( TradeDirection tradeDirection, Double quantity, Double response) {
         try{
-            Instant time = Instant.now();
+            Instant now = Instant.now();
             String quantityStr = Double.toString(quantity);
-            String priceResponse = "NULL";
-            if (response != null){
-                priceResponse = Double.toString(response);
-            }
-            String now = time.toString();
+            String priceResponse = Double.toString(response);
+            String buyOrSell = tradeDirection.toString();
 
             FileWriter myWriter = new FileWriter("logfile.txt", true); // appends to original file
 
@@ -50,9 +47,8 @@ public class Logger {
 
     public static void logPrices(double midPrice) {
         try{
-            Instant time = Instant.now();
+            Instant now = Instant.now();
             String midPriceStr = Double.toString(midPrice);
-            String now = time.toString();
 
             FileWriter myWriter = new FileWriter("logfile.txt", true); //appends to original file
 
